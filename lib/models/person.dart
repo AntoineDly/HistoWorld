@@ -1,7 +1,14 @@
-class Person {
-  final String username;
-  final String role;
-  final String personaName;
+import 'package:json_annotation/json_annotation.dart';
 
-  const Person({required this.username, required this.role, required this.personaName});
+@JsonSerializable()
+class Person {
+  Person(this.username, this.role, this.personaName);
+
+  String username;
+  String role;
+  String personaName;
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
 }

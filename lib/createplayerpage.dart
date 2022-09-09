@@ -9,8 +9,7 @@ class CreatePlayerPage extends StatefulWidget {
 }
 
 class _CreatePlayerPageState extends State<CreatePlayerPage> {
-  final nameController = TextEditingController();
-  @override
+  final TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,18 +27,12 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
               ),
               TextButton(
                   onPressed: () {
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const PersonPage(username: nameController.text)),
-                    );*/
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Text(nameController.text),
-                        );
-                      },
-                    );
+                    if(nameController.text.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PersonPage(username: nameController.text)),
+                      );
+                    }
                   },
                   child: const Text('Découvrir mon rôle')
               )

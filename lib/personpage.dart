@@ -4,32 +4,60 @@ import 'package:histoworld/createplayerpage.dart';
 import 'models/person.dart';
 
 class PersonPage extends StatefulWidget {
-  const PersonPage({super.key, required this.username});
   final String username;
-
+  const PersonPage({super.key, required this.username});
   @override
   State<PersonPage> createState() => _PersonPageState();
 }
 
 class _PersonPageState extends State<PersonPage> {
-  Person person = new Person(
-    username: 'test',
-    role: 'protector',
-    personaName: 'Louis XVI',
-  );
+  Person person = Person('', '', '');
+  @override
+  void initState() {
+    super.initState();
+    person = Person(
+        widget.username,
+        'protector',
+        'Louis XVI'
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CreatePlayerPage(title: 'Créer son personange')),
-              );
-            },
-            child: const Text('Commencer'),
+      body: Column(
+        children: [
+          Row(
+              children: [
+                const Text(
+                  'Username : ',
+                ),
+                Text(
+                  person.username,
+                ),
+              ]
+          ),
+          Row(
+              children: [
+                const Text(
+                  'Role : ',
+                ),
+                Text(
+                  person.role,
+                ),
+              ]
+          ),
+          Row(
+              children: [
+                const Text(
+                  'PersonaName : ',
+                ),
+                Text(
+                  person.personaName,
+                ),
+              ]
           )
+        ]
+
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

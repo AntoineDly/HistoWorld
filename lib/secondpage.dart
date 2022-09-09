@@ -91,7 +91,7 @@ class _SecondPageState extends State<SecondPage> {
                 child: const Icon(Icons.remove),
               ),
               const Text(
-                'Nombre de joueurs',
+                'Nombre de joueurs ',
               ),
               Text(
                 '$_counter',
@@ -105,7 +105,7 @@ class _SecondPageState extends State<SecondPage> {
           Row(
             children: [
               const Text(
-                'Nombre de protecteurs',
+                'Nombre de protecteurs ',
               ),
               Text(
                 '$_protectors',
@@ -115,7 +115,7 @@ class _SecondPageState extends State<SecondPage> {
           Row(
             children: [
               const Text(
-                'Nombre de saboteurs',
+                'Nombre de saboteurs ',
               ),
               Text(
                 '$_saboteurs',
