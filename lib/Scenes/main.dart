@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart';
+import '../Scenes/Home/homepage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'HistoWorld',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

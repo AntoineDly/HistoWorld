@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'createplayerpage.dart';
+import '../User/createuserpage.dart';
 
-class SecondPage extends StatefulWidget {
-  const SecondPage({super.key, required this.title});
+class NumberUsersPage extends StatefulWidget {
+  const NumberUsersPage({super.key, required this.title});
   final String title;
 
   @override
-  State<SecondPage> createState() => _SecondPageState();
+  State<NumberUsersPage> createState() => _NumberUsersPageState();
 }
 
-class _SecondPageState extends State<SecondPage> {
+class _NumberUsersPageState extends State<NumberUsersPage> {
   int _counter = 4;
   int _protectors = 3;
   int _saboteurs = 1;
@@ -79,7 +79,7 @@ class _SecondPageState extends State<SecondPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page d\'acceuil'),
+        title: Text('Nombre de joueurs'),
       ),
       body: Column(
         children: <Widget>[
@@ -126,7 +126,7 @@ class _SecondPageState extends State<SecondPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CreatePlayerPage(title: 'Nombre de joueurs')),
+                  MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nombre de joueurs')),
                 );
               },
               child: const Text('Commencer')
