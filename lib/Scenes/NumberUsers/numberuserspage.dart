@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Models/NumberUsers.dart';
+import '../../Service/Database.dart';
 import '../User/createuserpage.dart';
 
 class NumberUsersPage extends StatefulWidget {
@@ -11,14 +13,36 @@ class NumberUsersPage extends StatefulWidget {
 }
 
 class _NumberUsersPageState extends State<NumberUsersPage> {
-  int _counter = 4;
-  int _protectors = 3;
-  int _saboteurs = 1;
+  int players = 4;
+  int protectors = 3;
+  int saboteurs = 1;
+
+  Future<NumberUsers> initNumberUsers() async {
+    final NumberUsers numberProtectors = NumberUsers(
+        roleId: 1,
+        expected: protectors,
+        current: 0
+    );
+    final NumberUsers numberSaboteurs = NumberUsers(
+        roleId: 2,
+        expected: saboteurs,
+        current: 0
+    );
+    final NumberUsers numberPlayers = NumberUsers(
+        roleId: 3,
+        expected: players,
+        current: 0
+    );
+
+    await ORM.instance.createNumberUsers(numberProtectors);
+    await ORM.instance.createNumberUsers(numberSaboteurs);
+    return await ORM.instance.createNumberUsers(numberPlayers);
+  }
 
   void _incrementCounter() {
     setState(() {
-      if(_counter < 10) {
-        _counter++;
+      if(players < 10) {
+        players++;
       }
       getProtectorsAndSaboteurs();
     });
@@ -26,8 +50,8 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
 
   void _decrementCounter() {
     setState(() {
-      if(_counter > 4) {
-        _counter--;
+      if(players > 4) {
+        players--;
       }
       getProtectorsAndSaboteurs();
     });
@@ -35,40 +59,40 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
 
   void getProtectorsAndSaboteurs() {
     setState(() {
-      switch(_counter) {
+      switch(players) {
         case 4: {
-          _protectors = 3;
-          _saboteurs = 1;
+          protectors = 3;
+          saboteurs = 1;
           break;
         }
         case 5: {
-          _protectors = 3;
-          _saboteurs = 2;
+          protectors = 3;
+          saboteurs = 2;
           break;
         }
         case 6: {
-          _protectors = 4;
-          _saboteurs = 2;
+          protectors = 4;
+          saboteurs = 2;
           break;
         }
         case 7: {
-          _protectors = 4;
-          _saboteurs = 3;
+          protectors = 4;
+          saboteurs = 3;
           break;
         }
         case 8: {
-          _protectors = 5;
-          _saboteurs = 3;
+          protectors = 5;
+          saboteurs = 3;
           break;
         }
         case 9: {
-          _protectors = 5;
-          _saboteurs = 4;
+          protectors = 5;
+          saboteurs = 4;
           break;
         }
         case 10: {
-          _protectors = 6;
-          _saboteurs = 4;
+          protectors = 6;
+          saboteurs = 4;
           break;
         }
       }
@@ -94,7 +118,7 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
                 'Nombre de joueurs ',
               ),
               Text(
-                '$_counter',
+                '$players',
               ),
               TextButton(
                 onPressed: _incrementCounter,
@@ -108,7 +132,7 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
                 'Nombre de protecteurs ',
               ),
               Text(
-                '$_protectors',
+                '$protectors',
               ),
             ]
           ),
@@ -118,15 +142,19 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
                 'Nombre de saboteurs ',
               ),
               Text(
-                '$_saboteurs',
+                '$saboteurs',
               ),
             ]
           ),
           TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nombre de joueurs')),
+              onPressed: () async {
+                await initNumberUsers().then((numberOfUsers) =>
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CreateUserPage(
+                          title: 'Nouveau Joueur'
+                      )),
+                    )
                 );
               },
               child: const Text('Commencer')

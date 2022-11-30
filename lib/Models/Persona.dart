@@ -1,11 +1,7 @@
 final String tablePersonas = 'personas';
 
 class PersonaFields {
-  static final List<String> values = [
-    /// Add all fields
-    id, name, roleId, isAlreadySelected
-  ];
-
+  static final List<String> values = [id, name, roleId, isAlreadySelected];
   static const String id = '_id';
   static const String name = 'name';
   static const String roleId = 'roleId';
@@ -13,13 +9,13 @@ class PersonaFields {
 }
 
 class Persona {
-  final int? id;
+  final int id;
   final String name;
   final int roleId;
   final int isAlreadySelected;
 
   const Persona({
-    this.id,
+    required this.id,
     required this.name,
     required this.roleId,
     required this.isAlreadySelected
@@ -39,7 +35,7 @@ class Persona {
       );
 
   static Persona fromJson(Map<String, Object?> json) => Persona(
-    id: json['id'] as int?,
+    id: json['_id'] as int,
     name: json['name'] as String,
     roleId: json['roleId'] as int,
     isAlreadySelected: json['isAlreadySelected'] as int

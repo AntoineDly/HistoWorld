@@ -1,11 +1,7 @@
 final String tableUsers = 'users';
 
 class UserFields {
-  static final List<String> values = [
-    /// Add all fields
-    id, name, personaId
-  ];
-
+  static final List<String> values = [id, name, personaId];
   static const String id = '_id';
   static const String name = 'name';
   static const String personaId = 'personaId';
@@ -34,7 +30,7 @@ class User {
       );
 
   static User fromJson(Map<String, Object?> json) => User(
-    id: json['id'] as int?,
+    id: json['_id'] as int?,
     name: json['name'] as String,
     personaId: json['roleId'] as int,
   );

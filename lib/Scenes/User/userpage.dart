@@ -4,7 +4,9 @@ import 'package:histoworld/Models/User.dart';
 
 import 'package:histoworld/Scenes/User/createuserpage.dart';
 
+import '../../Models/NumberUsers.dart';
 import '../../Models/Persona.dart';
+import '../../Models/Role.dart';
 import '../../Service/Database.dart';
 
 class UserPage extends StatefulWidget {
@@ -16,6 +18,8 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   String roleName = '';
+  MaterialPageRoute newPage = MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nouveau joueur'));
+  String futurePage = 'Prochain joueurs';
   Persona persona = const Persona(
       id:0,
       name:'',
@@ -25,14 +29,20 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
+    getNumberPlayers().then((numberPlayers) {
+      if (numberPlayers.expected == numberPlayers.current) {
+        newPage = MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nouveau joueur'));
+        futurePage = 'Commencer la partie';
+      }
+    });
     getPersona().then((persona) {
       setState(() {
         this.persona = persona;
       });
-    });
-    getRoleName().then((roleName) {
-      setState(() {
-        this.roleName = roleName;
+      getRole().then((role) {
+        setState(() {
+          roleName = role.name;
+        });
       });
     });
   }
@@ -40,8 +50,12 @@ class _UserPageState extends State<UserPage> {
     return (await ORM.instance.readPersona(widget.user.personaId));
   }
 
-  Future<String> getRoleName() async {
-    return (await ORM.instance.readRole(persona.roleId)).name;
+  Future<Role> getRole() async {
+    return (await ORM.instance.readRole(persona.roleId));
+  }
+
+  Future<NumberUsers> getNumberPlayers() async {
+    return (await ORM.instance.readNumberUsers(3));
   }
   @override
   Widget build(BuildContext context) {
@@ -92,10 +106,10 @@ class _UserPageState extends State<UserPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nouveau joueur')),
+                  newPage
                 );
               },
-              child: const Text('Prochain joueurs')
+              child: Text(futurePage)
           )
         ]
 

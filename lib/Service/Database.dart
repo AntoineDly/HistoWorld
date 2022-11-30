@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:histoworld/Models/NumberUsers.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -31,14 +32,13 @@ class ORM {
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
-    const boolType = 'BOOLEAN NOT NULL';
     const integerType = 'INTEGER NOT NULL';
 
     await db.execute('''
       CREATE TABLE $tableUsers ( 
         ${UserFields.id} $idType, 
         ${UserFields.name} $textType,
-        ${UserFields.personaId} $integerType,
+        ${UserFields.personaId} $integerType
       )
     ''');
 
@@ -50,44 +50,94 @@ class ORM {
     ''');
 
     await db.execute('''
-      INSERT INTO $tableRoles VALUES ( 
-        1, 'protectors'
+      CREATE TABLE $tableNumberUsers ( 
+        ${NumberUsersFields.id} $idType, 
+        ${NumberUsersFields.roleId} $integerType,
+        ${NumberUsersFields.expected} $integerType,
+        ${NumberUsersFields.current} $integerType
       )
     ''');
 
     await db.execute('''
-      INSERT INTO $tableRoles VALUES ( 
-        2, 'saboteurs'
+      INSERT INTO $tableRoles ('name') VALUES ( 
+        'protectors'
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO $tableRoles ('name') VALUES ( 
+        'saboteurs'
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO $tableRoles ('name') VALUES ( 
+        'players'
       )
     ''');
 
     await db.execute('''
       CREATE TABLE $tablePersonas ( 
         ${PersonaFields.id} $idType, 
-        ${PersonaFields.name} $textType
-        ${PersonaFields.roleId} $integerType
+        ${PersonaFields.name} $textType,
+        ${PersonaFields.roleId} $integerType,
         ${PersonaFields.isAlreadySelected} $integerType
       )
     ''');
 
     await db.execute('''
-      INSERT INTO $tablePersonas VALUES ( 
-        1, 'Protector1', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector1', 1, 0
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas VALUES ( 
-        1, 'Protector2', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector2', 1, 0
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas VALUES ( 
-        1, 'Saboteur1', 2, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector3', 1, 0
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas VALUES ( 
-        1, 'Saboteur2', 2, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector4', 1, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector5', 1, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector6', 1, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Protector7', 1, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Saboteur1', 2, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Saboteur2', 2, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Saboteur3', 2, 0
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
+        'Saboteur4', 2, 0
       )
     ''');
 
@@ -125,11 +175,61 @@ class ORM {
 
     final result = await db.query(
         tableUsers,
-        columns: PersonaFields.values,
+        columns: UserFields.values,
         orderBy: orderBy
     );
 
     return result.map((json) => User.fromJson(json)).toList();
+  }
+
+  Future<NumberUsers> createNumberUsers(NumberUsers numberUsers) async {
+    final db = await instance.database;
+
+    final id = await db.insert(tableNumberUsers, numberUsers.toJson());
+
+    return numberUsers.copy(id: id);
+  }
+
+  Future<NumberUsers> readNumberUsers(int roleId) async {
+    final db = await instance.database;
+
+    final maps = await db.query(
+      tableNumberUsers,
+      columns: NumberUsersFields.values,
+      where: '${NumberUsersFields.id} = ?',
+      whereArgs: [roleId],
+    );
+
+    if (maps.isNotEmpty) {
+      return NumberUsers.fromJson(maps.first);
+    } else {
+      throw Exception('no NumberUsers');
+    }
+  }
+
+  Future<List<NumberUsers>> readAllNumberUsers() async {
+    final db = await instance.database;
+
+    const orderBy = '${NumberUsersFields.roleId} ASC';
+
+    final result = await db.query(
+        tableNumberUsers,
+        columns: NumberUsersFields.values,
+        orderBy: orderBy
+    );
+
+    return result.map((json) => NumberUsers.fromJson(json)).toList();
+  }
+
+  Future<int> updateNumberUser(NumberUsers numberUser) async {
+    final db = await instance.database;
+
+    return db.update(
+      tableNumberUsers,
+      numberUser.toJson(),
+      where: '${NumberUsersFields.id} = ?',
+      whereArgs: [numberUser.id],
+    );
   }
 
   Future<Role> readRole(int id) async {
@@ -153,7 +253,7 @@ class ORM {
     final db = await instance.database;
 
     final maps = await db.query(
-      tableUsers,
+      tablePersonas,
       columns: PersonaFields.values,
       where: '${PersonaFields.id} = ?',
       whereArgs: [id],
@@ -176,6 +276,21 @@ class ORM {
         columns: PersonaFields.values,
         where: '${PersonaFields.isAlreadySelected} = ?',
         whereArgs: [isAlreadySelected],
+        orderBy: orderBy);
+
+    return result.map((json) => Persona.fromJson(json)).toList();
+  }
+
+  Future<List<Persona>> readAllPersonaSpecified({int roleId = 1, int isAlreadySelected = 0}) async {
+    final db = await instance.database;
+
+    const orderBy = '${PersonaFields.name} ASC';
+
+    final result = await db.query(
+        tablePersonas,
+        columns: PersonaFields.values,
+        where: '${PersonaFields.isAlreadySelected} = ? AND ${PersonaFields.roleId} = ?',
+        whereArgs: [isAlreadySelected, roleId],
         orderBy: orderBy);
 
     return result.map((json) => Persona.fromJson(json)).toList();
