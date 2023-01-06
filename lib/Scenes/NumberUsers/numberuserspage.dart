@@ -33,6 +33,7 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
         expected: players,
         current: 0
     );
+    ORM.instance.reset();
 
     await ORM.instance.createNumberUsers(numberProtectors);
     await ORM.instance.createNumberUsers(numberSaboteurs);

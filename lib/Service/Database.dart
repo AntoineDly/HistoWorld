@@ -12,13 +12,14 @@ class ORM {
   static final ORM instance = ORM._init();
 
   static Database? _database;
+  String databasePath = 'histoworld.db';
 
   ORM._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('notes.db');
+    _database = await _initDB(databasePath);
     return _database!;
   }
 
@@ -182,6 +183,18 @@ class ORM {
     return result.map((json) => User.fromJson(json)).toList();
   }
 
+  Future<void> deleteAllUsersAndNumberUsers() async {
+    final db = await instance.database;
+
+    await db.execute('''
+      DELETE FROM users
+    ''');
+
+    await db.execute('''
+      DELETE FROM numberUsers
+    ''');
+  }
+
   Future<NumberUsers> createNumberUsers(NumberUsers numberUsers) async {
     final db = await instance.database;
 
@@ -311,5 +324,11 @@ class ORM {
     final db = await instance.database;
 
     db.close();
+
+  }
+
+  void reset() {
+    databaseFactory.deleteDatabase(databasePath);
+    _database = null;
   }
 }

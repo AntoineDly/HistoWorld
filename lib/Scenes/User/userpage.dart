@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:histoworld/Models/User.dart';
 
-import 'package:histoworld/Scenes/User/createuserpage.dart';
-
 import '../../Models/NumberUsers.dart';
 import '../../Models/Persona.dart';
 import '../../Models/Role.dart';
 import '../../Service/Database.dart';
+
+import 'createuserpage.dart';
+import '../NumberUsers/numberuserspage.dart';
+import '../Hub/hubepage.dart';
 
 class UserPage extends StatefulWidget {
   final User user;
@@ -19,7 +21,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   String roleName = '';
   MaterialPageRoute newPage = MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nouveau joueur'));
-  String futurePage = 'Prochain joueurs';
+  String futurePage = 'Prochain joueur';
   Persona persona = const Persona(
       id:0,
       name:'',
@@ -31,7 +33,7 @@ class _UserPageState extends State<UserPage> {
     super.initState();
     getNumberPlayers().then((numberPlayers) {
       if (numberPlayers.expected == numberPlayers.current) {
-        newPage = MaterialPageRoute(builder: (context) => const CreateUserPage(title: 'Nouveau joueur'));
+        newPage = MaterialPageRoute(builder: (context) => const HubPage(title: 'Cool'));
         futurePage = 'Commencer la partie';
       }
     });
@@ -57,63 +59,80 @@ class _UserPageState extends State<UserPage> {
   Future<NumberUsers> getNumberPlayers() async {
     return (await ORM.instance.readNumberUsers(3));
   }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Row(
-              children: [
-                const Text(
-                  'Id : ',
-                ),
-                Text(
-                  widget.user.id.toString(),
-                ),
-              ]
-          ),
-          Row(
-              children: [
-                const Text(
-                  'Username : ',
-                ),
-                Text(
-                  widget.user.name,
-                ),
-              ]
-          ),
-          Row(
-              children: [
-                const Text(
-                  'Role : ',
-                ),
-                Text(
-                    roleName
-                ),
-              ]
-          ),
-          Row(
-              children: [
-                const Text(
-                  'PersonaName : ',
-                ),
-                Text(
-                  persona.name,
-                ),
-              ]
+
+  MaterialPageRoute returnPage = MaterialPageRoute(builder: (context) => const NumberUsersPage(title : 'Nombre de joueurs'));
+  Future<bool> onWillPop() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Retourner au choix du nombre de joueurs ?'),
+        content: const Text('Est-ce que vous voulez vraiment quitté le jeu et retourner à l\'écran d\'acceuil ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.push(context, returnPage);
+            },
+            child: const Text('Oui'),
           ),
           TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Non'),
+          )
+        ],
+      ),
+    );
+    return Future.value(true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.user.name),
+          leading: GestureDetector(
+            child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
+            onTap: () {
+              Navigator.push(context, returnPage);
+            },
+          ),
+        ),
+        body: Column(
+          children: [
+            Row(
+              children: [
+                const Text('Id : '),
+                Text(widget.user.id.toString())
+              ]
+            ),
+            Row(
+              children: [
+                const Text('Username : '),
+                Text(widget.user.name)
+              ]
+            ),
+            Row(
+              children: [
+                const Text('Role : '),
+                Text(roleName)
+              ]
+            ),
+            Row(
+              children: [
+                const Text('PersonaName : '),
+                Text(persona.name)
+              ]
+            ),
+            TextButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  newPage
-                );
+                Navigator.push(context, newPage);
               },
               child: Text(futurePage)
-          )
-        ]
-
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+            )
+          ]
+        ),
+      )// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

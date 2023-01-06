@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:histoworld/Models/User.dart';
 
 import '../../Extensions/List.dart';
 import '../../Models/NumberUsers.dart';
+import '../../Models/User.dart';
 import '../../Models/Persona.dart';
 import '../../Service/Database.dart';
+
 import 'userpage.dart';
+import '../NumberUsers/numberuserspage.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({super.key, required this.title});
@@ -82,36 +84,69 @@ class _CreateUserPageState extends State<CreateUserPage> {
     return await ORM.instance.readAllNumberUsers();
   }
 
+  MaterialPageRoute returnPage = MaterialPageRoute(builder: (context) => const NumberUsersPage(title : 'Nombre de joueurs'));
+  Future<bool> onWillPop() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Retourner au choix du nombre de joueurs ?'),
+        content: const Text('Est-ce que vous voulez vraiment quitté le jeu et retourner à l\'écran d\'acceuil ?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.push(context, returnPage);
+            },
+            child: const Text('Oui'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Non'),
+          )
+        ],
+      ),
+    );
+    return Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
         appBar: AppBar(
           title: Text('Nouveau Joueur'),
+          leading: GestureDetector(
+            child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
+            onTap: () {
+              Navigator.push(context, returnPage);
+            },
+          ),
         ),
         body: Column(
-            children: <Widget>[
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter your username',
-                ),
+          children: <Widget>[
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Enter your username',
               ),
-              TextButton(
-                  onPressed: () async {
-                    if(nameController.text.isNotEmpty) {
-                      await addUser(nameController.text).then((user) =>
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => UserPage(user: user))
-                          )
-                      );
-                    }
-                  },
-                  child: const Text('Découvrir mon rôle')
-              )
-            ]
-        ) // This trailing comma makes auto-formatting nicer for build methods.
+            ),
+            TextButton(
+              onPressed: () async {
+                if(nameController.text.isNotEmpty) {
+                  await addUser(nameController.text).then((user) =>
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserPage(user: user))
+                    )
+                  );
+                }
+              },
+              child: const Text('Découvrir mon rôle')
+            )
+          ]
+        )
+      ) // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
