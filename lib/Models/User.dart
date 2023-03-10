@@ -32,7 +32,7 @@ class User {
   static User fromJson(Map<String, Object?> json) => User(
     id: json['_id'] as int?,
     name: json['name'] as String,
-    personaId: json['roleId'] as int,
+    personaId: json['personaId'] as int,
   );
 
   Map<String, Object?> toJson() {

@@ -9,7 +9,7 @@ import '../../Service/Database.dart';
 
 import 'createuserpage.dart';
 import '../NumberUsers/numberuserspage.dart';
-import '../Hub/hubepage.dart';
+import '../Hub/hubpage.dart';
 
 class UserPage extends StatefulWidget {
   final User user;

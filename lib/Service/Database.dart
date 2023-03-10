@@ -322,9 +322,7 @@ class ORM {
 
   Future close() async {
     final db = await instance.database;
-
     db.close();
-
   }
 
   void reset() {
