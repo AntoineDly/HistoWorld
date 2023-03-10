@@ -3,6 +3,7 @@ import '../../Models/User.dart';
 
 import '../../Service/Database.dart';
 import '../Hub/hubpage.dart';
+import '../Quest/questpage.dart';
 
 class RoundPage extends StatefulWidget {
   const RoundPage({super.key, required this.user});
@@ -15,13 +16,13 @@ class _RoundPageState extends State<RoundPage> {
   MaterialPageRoute returnPage = MaterialPageRoute(builder: (context) => const HubPage(title : 'Home'));
   List<User> users = [];
   List<User> selectedUsers = [];
+  List<ButtonStyle> styles = [];
+  bool hasNotBeenLoaded = true;
 
   @override
   void initState() {
     super.initState();
-    getUsers().then((users) {
-      this.users = users;
-    });
+    getUsers();
   }
 
   Future<List<User>> getUsers() async {
@@ -52,23 +53,88 @@ class _RoundPageState extends State<RoundPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: onWillPop,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Round'),
-            leading: GestureDetector(
-              child: const Icon( Icons.arrow_back_ios, color: Colors.black),
-              onTap: () {
-                Navigator.push(context, returnPage);
-              },
-            ),
-          ),
-          body: Center(
-            child: Text(widget.user.name)
-          ), //
-        )
-    );
-  }
+  Widget build(BuildContext context) => FutureBuilder(
+      future: getUsers(),
+      builder: (context, snapshot) {
+        if(snapshot.hasData) {
+          if(hasNotBeenLoaded) {
+            hasNotBeenLoaded = false;
+            List<User> listUsers = (snapshot.data as List<User>).toList();
+            for (var user in listUsers){
+              if(user.id != widget.user.id){
+                users.add(user);
+                styles.add(TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.blue,
+                ));
+              }
+            }
+          }
+          return WillPopScope(
+              onWillPop: onWillPop,
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.user.name),
+                  leading: GestureDetector(
+                    child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
+                    onTap: () {
+                      Navigator.push(context, returnPage);
+                    },
+                  ),
+                ),
+                body: Column(
+                  children: <Widget>[
+                    GridView.count(
+                      crossAxisCount: 2,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: List.generate(users.length, (index) {
+                        return Center(
+                          child: TextButton(
+                            style: styles[index],
+                            onPressed: () {
+                              if(selectedUsers.contains(users[index])) {
+                                selectedUsers.remove(users[index]);
+                                setState(() {
+                                  styles[index] = TextButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    foregroundColor: Colors.blue,
+                                  );
+                                });
+                              } else {
+                                selectedUsers.add(users[index]);
+                                setState(() {
+                                  styles[index] = TextButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    foregroundColor: Colors.white,
+                                  );
+                                });
+                              }
+                            },
+                            child: Text(users[index].name)
+                          )
+                        );
+                      }
+                    )
+                  ),
+                  Center(
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => QuestPage(selectedUsers: selectedUsers))
+                            );
+                          },
+                          child: Text('Partir en quête')
+                      )
+                  ),
+                ],
+              )
+            )
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      }
+  );
 }

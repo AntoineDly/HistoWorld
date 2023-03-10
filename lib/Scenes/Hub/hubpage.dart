@@ -62,6 +62,8 @@ class _HubPageState extends State<HubPage> {
               ),
               body: GridView.count(
                 crossAxisCount: 2,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
                 children: List.generate(users.length, (index) {
                   return Center(
                       child: TextButton(

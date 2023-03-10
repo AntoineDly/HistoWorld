@@ -152,6 +152,14 @@ class ORM {
     return user.copy(id: id);
   }
 
+  Future<User> deleteUser(User user) async {
+    final db = await instance.database;
+
+    final id = await db.delete(tableUsers, where:'id = ?', whereArgs: [user.id]);
+
+    return user.copy(id: id);
+  }
+
   Future<User> readUser(int id) async {
     final db = await instance.database;
 
