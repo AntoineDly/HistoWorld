@@ -33,7 +33,7 @@ class _UserPageState extends State<UserPage> {
     super.initState();
     getNumberPlayers().then((numberPlayers) {
       if (numberPlayers.expected == numberPlayers.current) {
-        newPage = MaterialPageRoute(builder: (context) => const HubPage(title: 'Cool'));
+        newPage = MaterialPageRoute(builder: (context) => const HubPage());
         futurePage = 'Commencer la partie';
       }
     });

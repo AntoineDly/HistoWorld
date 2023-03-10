@@ -4,6 +4,7 @@ import 'package:histoworld/Models/NumberUsers.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../Models/NumberBuildings.dart';
 import '../Models/User.dart';
 import '../Models/Role.dart';
 import '../Models/Persona.dart';
@@ -60,6 +61,14 @@ class ORM {
     ''');
 
     await db.execute('''
+      CREATE TABLE $tableNumberBuildings ( 
+        ${NumberBuildingsFields.id} $idType, 
+        ${NumberBuildingsFields.name} $textType,
+        ${NumberBuildingsFields.current} $integerType
+      )
+    ''');
+
+    await db.execute('''
       INSERT INTO $tableRoles ('name') VALUES ( 
         'protectors'
       )
@@ -74,6 +83,18 @@ class ORM {
     await db.execute('''
       INSERT INTO $tableRoles ('name') VALUES ( 
         'players'
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO $tableNumberBuildings ('name', 'current') VALUES ( 
+        'protectors', 0
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO $tableNumberBuildings ('name', 'current') VALUES ( 
+        'saboteurs', 0
       )
     ''');
 
@@ -152,6 +173,15 @@ class ORM {
     return user.copy(id: id);
   }
 
+  Future<void> deleteUser(User user) async {
+    final db = await instance.database;
+    await db.delete(
+        tableUsers,
+        where: '${UserFields.id} = ?',
+        whereArgs: [user.id]
+    );
+  }
+
   Future<User> readUser(int id) async {
     final db = await instance.database;
 
@@ -181,18 +211,6 @@ class ORM {
     );
 
     return result.map((json) => User.fromJson(json)).toList();
-  }
-
-  Future<void> deleteAllUsersAndNumberUsers() async {
-    final db = await instance.database;
-
-    await db.execute('''
-      DELETE FROM users
-    ''');
-
-    await db.execute('''
-      DELETE FROM numberUsers
-    ''');
   }
 
   Future<NumberUsers> createNumberUsers(NumberUsers numberUsers) async {
@@ -242,6 +260,48 @@ class ORM {
       numberUser.toJson(),
       where: '${NumberUsersFields.id} = ?',
       whereArgs: [numberUser.id],
+    );
+  }
+
+  Future<NumberBuildings> readNumberBuildings(int id) async {
+    final db = await instance.database;
+
+    final maps = await db.query(
+      tableNumberBuildings,
+      columns: NumberBuildingsFields.values,
+      where: '${NumberBuildingsFields.id} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return NumberBuildings.fromJson(maps.first);
+    } else {
+      throw Exception('no NumberBuildings');
+    }
+  }
+
+  Future<List<NumberBuildings>> readAllNumberBuildings() async {
+    final db = await instance.database;
+
+    const orderBy = '${NumberBuildingsFields.id} ASC';
+
+    final result = await db.query(
+        tableNumberBuildings,
+        columns: NumberBuildingsFields.values,
+        orderBy: orderBy
+    );
+
+    return result.map((json) => NumberBuildings.fromJson(json)).toList();
+  }
+
+  Future<int> updateNumberBuildings(NumberBuildings numberBuildings) async {
+    final db = await instance.database;
+
+    return db.update(
+      tableNumberBuildings,
+      numberBuildings.toJson(),
+      where: '${NumberBuildingsFields.id} = ?',
+      whereArgs: [numberBuildings.id],
     );
   }
 

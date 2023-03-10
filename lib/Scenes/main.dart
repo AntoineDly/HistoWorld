@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'HistoWorld',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white
       ),
       home: const MyHomePage(title: 'HistoWorld'),
     );
