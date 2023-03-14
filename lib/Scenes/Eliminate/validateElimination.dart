@@ -26,11 +26,11 @@ class _ValidateEliminationPageState extends State<ValidateEliminationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quête'),
+        title: Text('Eliminer un joueur'),
       ),
         body: Column(
             children: [
-              Text(widget.selectedUser.name),
+              Text(widget.selectedUser.name + ' a été guillotiné(e).'),
               TextButton(
                   onPressed: () async {
                     await removeUser(widget.selectedUser).then((test) =>

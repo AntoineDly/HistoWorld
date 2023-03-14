@@ -14,13 +14,13 @@ class NumberUsersPage extends StatefulWidget {
 
 class _NumberUsersPageState extends State<NumberUsersPage> {
   int players = 4;
-  int protectors = 3;
+  int protecteurs = 3;
   int saboteurs = 1;
 
   Future<NumberUsers> initNumberUsers() async {
-    final NumberUsers numberProtectors = NumberUsers(
+    final NumberUsers numberProtecteurs = NumberUsers(
         roleId: 1,
-        expected: protectors,
+        expected: protecteurs,
         current: 0
     );
     final NumberUsers numberSaboteurs = NumberUsers(
@@ -35,7 +35,7 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
     );
     ORM.instance.reset();
 
-    await ORM.instance.createNumberUsers(numberProtectors);
+    await ORM.instance.createNumberUsers(numberProtecteurs);
     await ORM.instance.createNumberUsers(numberSaboteurs);
     return await ORM.instance.createNumberUsers(numberPlayers);
   }
@@ -45,7 +45,7 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
       if(players < 10) {
         players++;
       }
-      getProtectorsAndSaboteurs();
+      getProtecteursAndSaboteurs();
     });
   }
 
@@ -54,45 +54,45 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
       if(players > 4) {
         players--;
       }
-      getProtectorsAndSaboteurs();
+      getProtecteursAndSaboteurs();
     });
   }
 
-  void getProtectorsAndSaboteurs() {
+  void getProtecteursAndSaboteurs() {
     setState(() {
       switch(players) {
         case 4: {
-          protectors = 3;
+          protecteurs = 3;
           saboteurs = 1;
           break;
         }
         case 5: {
-          protectors = 3;
+          protecteurs = 3;
           saboteurs = 2;
           break;
         }
         case 6: {
-          protectors = 4;
+          protecteurs = 4;
           saboteurs = 2;
           break;
         }
         case 7: {
-          protectors = 4;
+          protecteurs = 4;
           saboteurs = 3;
           break;
         }
         case 8: {
-          protectors = 5;
+          protecteurs = 5;
           saboteurs = 3;
           break;
         }
         case 9: {
-          protectors = 5;
+          protecteurs = 5;
           saboteurs = 4;
           break;
         }
         case 10: {
-          protectors = 6;
+          protecteurs = 6;
           saboteurs = 4;
           break;
         }
@@ -133,7 +133,7 @@ class _NumberUsersPageState extends State<NumberUsersPage> {
                 'Nombre de protecteurs ',
               ),
               Text(
-                '$protectors',
+                '$protecteurs',
               ),
             ]
           ),

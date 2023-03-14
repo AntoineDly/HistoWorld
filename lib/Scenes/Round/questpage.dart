@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../Models/NumberBuildings.dart';
-import '../../Models/User.dart';
 
 import '../../Service/Database.dart';
 import '../Hub/hubpage.dart';
 
 class QuestPage extends StatefulWidget {
-  const QuestPage({super.key, required this.selectedUsers});
-  final List<User> selectedUsers;
+  const QuestPage({super.key});
   @override
   State<QuestPage> createState() => _QuestPageState();
 }
@@ -45,17 +43,10 @@ class _QuestPageState extends State<QuestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quête'),
+        title: Text('Partir en Quête'),
       ),
         body: Column(
             children: [
-              ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                children: [
-                  for (var user in widget.selectedUsers) Text(user.name),
-                ],
-              ),
               TextButton(
                 onPressed: () async {
                   await protect().then((numberBuildings) =>
@@ -65,7 +56,7 @@ class _QuestPageState extends State<QuestPage> {
                     )
                   );
                 },
-                child: Text('Protect')
+                child: Text('Protéger')
               ),
               TextButton(
                   onPressed: () async {
@@ -76,7 +67,7 @@ class _QuestPageState extends State<QuestPage> {
                       )
                     );
                   },
-                  child: Text('Sabotate')
+                  child: Text('Saboter')
               ),
             ]
         ),

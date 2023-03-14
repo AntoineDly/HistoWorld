@@ -26,7 +26,8 @@ class _UserPageState extends State<UserPage> {
       id:0,
       name:'',
       roleId: 0,
-      isAlreadySelected: 0
+      isAlreadySelected: 0,
+      description: ''
   );
   @override
   void initState() {
@@ -90,7 +91,7 @@ class _UserPageState extends State<UserPage> {
       onWillPop: onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.user.name),
+          title: Text(widget.user.name + 'est...'),
           leading: GestureDetector(
             child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
             onTap: () {
@@ -123,6 +124,12 @@ class _UserPageState extends State<UserPage> {
                 const Text('PersonaName : '),
                 Text(persona.name)
               ]
+            ),
+            Text(
+              persona.description,
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 20
             ),
             TextButton(
               onPressed: () {
