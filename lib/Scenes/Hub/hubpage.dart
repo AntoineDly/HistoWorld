@@ -18,7 +18,7 @@ class HubPage extends StatefulWidget {
 class _HubPageState extends State<HubPage> {
   MaterialPageRoute returnPage = MaterialPageRoute(builder: (context) => const MyHomePage(title : 'Home'));
   List<NumberBuildings> numberBuildings = [];
-  int currentNbProtectors = 0;
+  int currentNbProtecteurs = 0;
   int currentNbSaboteurs = 0;
 
   @override
@@ -27,7 +27,7 @@ class _HubPageState extends State<HubPage> {
     getNumberBuildings().then((numberBuildings) {
       setState(() {
         this.numberBuildings = numberBuildings;
-        currentNbProtectors = numberBuildings[0].current;
+        currentNbProtecteurs = numberBuildings[0].current;
         currentNbSaboteurs = numberBuildings[1].current;
       });
     });
@@ -70,7 +70,7 @@ class _HubPageState extends State<HubPage> {
         onWillPop: onWillPop,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Hub'),
+            title: Text('Tableau de bord'),
             leading: GestureDetector(
               child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
               onTap: () {
@@ -80,7 +80,7 @@ class _HubPageState extends State<HubPage> {
           ),
           body: Column(
               children: <Widget>[
-                Text ('Protectors : ' + currentNbProtectors.toString()),
+                Text ('protecteurs : ' + currentNbProtecteurs.toString()),
                 Text ('Saboteurs : ' + currentNbSaboteurs.toString()),
                 Text(widget.user != null ? widget.user!.name : 'Veuillez désigner un chef de gardes'),
                 TextButton(

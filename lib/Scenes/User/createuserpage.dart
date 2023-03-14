@@ -20,10 +20,10 @@ class _CreateUserPageState extends State<CreateUserPage> {
   final TextEditingController nameController = TextEditingController();
   List<Persona> personas = [];
   List<NumberUsers> numberUsers = [];
-  int currentNbProtectors = 0;
+  int currentNbProtecteurs = 0;
   int currentNbSaboteurs = 0;
   int currentNbPlayers = 0;
-  int expectedNbProtectors = 0;
+  int expectedNbprotecteurs = 0;
   int expectedNbSaboteurs = 0;
 
   @override
@@ -32,11 +32,11 @@ class _CreateUserPageState extends State<CreateUserPage> {
     getNumberUsers().then((numberUsers) {
       setState(() {
         this.numberUsers = numberUsers;
-        currentNbProtectors = numberUsers[0].current;
+        currentNbProtecteurs = numberUsers[0].current;
         currentNbSaboteurs = numberUsers[1].current;
         currentNbPlayers = numberUsers[2].current;
 
-        expectedNbProtectors = numberUsers[0].expected;
+        expectedNbprotecteurs = numberUsers[0].expected;
         expectedNbSaboteurs = numberUsers[1].expected;
         getPersonas().then((personas) {
           setState(() {
@@ -71,7 +71,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
   }
 
   Future<List<Persona>> getPersonas() async {
-    if (currentNbProtectors == expectedNbProtectors) {
+    if (currentNbProtecteurs == expectedNbprotecteurs) {
       return await ORM.instance.readAllPersonaSpecified(roleId: 2);
     } else if (currentNbSaboteurs == expectedNbSaboteurs) {
       return await ORM.instance.readAllPersonaSpecified();
@@ -128,9 +128,10 @@ class _CreateUserPageState extends State<CreateUserPage> {
               controller: nameController,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
-                labelText: 'Enter your username',
+                labelText: 'Entre ton pseudonyme',
               ),
             ),
+            Text('À quel camp vas-tu appartenir ?'),
             TextButton(
               onPressed: () async {
                 if(nameController.text.isNotEmpty) {

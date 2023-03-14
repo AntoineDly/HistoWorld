@@ -71,7 +71,7 @@ class _EliminatePageState extends State<EliminatePage> {
               onWillPop: onWillPop,
               child: Scaffold(
                   appBar: AppBar(
-                    title: Text('Partir en quête'),
+                    title: Text('Eliminer un joueur'),
                     leading: GestureDetector(
                       child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
                       onTap: () {
@@ -81,6 +81,8 @@ class _EliminatePageState extends State<EliminatePage> {
                   ),
                   body: Column(
                     children: <Widget>[
+                      Text('A la majorité, éliminez un joueur'),
+                      Text('Il te suffit de cliquer sur le joueur qui a été éliminer de la partie.'),
                       GridView.count(
                           crossAxisCount: 2,
                           scrollDirection: Axis.vertical,
@@ -124,7 +126,7 @@ class _EliminatePageState extends State<EliminatePage> {
                                   );
                                 }
                               },
-                              child: Text('Valider')
+                              child: Text('Eliminer')
                           )
                       ),
                     ],

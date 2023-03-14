@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:histoworld/Scenes/Round/instructionspage.dart';
 import '../../Models/User.dart';
 
 import '../../Service/Database.dart';
 import '../Hub/hubpage.dart';
-import 'questpage.dart';
 
 class RoundPage extends StatefulWidget {
   const RoundPage({super.key});
@@ -119,7 +119,7 @@ class _RoundPageState extends State<RoundPage> {
                           onPressed: () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => QuestPage(selectedUsers: selectedUsers))
+                                MaterialPageRoute(builder: (context) => InstructionsPage(selectedUsers: selectedUsers))
                             );
                           },
                           child: Text('Valider')

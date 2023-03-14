@@ -70,7 +70,7 @@ class ORM {
 
     await db.execute('''
       INSERT INTO $tableRoles ('name') VALUES ( 
-        'protectors'
+        'protecteurs'
       )
     ''');
 
@@ -88,7 +88,7 @@ class ORM {
 
     await db.execute('''
       INSERT INTO $tableNumberBuildings ('name', 'current') VALUES ( 
-        'protectors', 0
+        'protecteurs', 0
       )
     ''');
 
@@ -103,63 +103,70 @@ class ORM {
         ${PersonaFields.id} $idType, 
         ${PersonaFields.name} $textType,
         ${PersonaFields.roleId} $integerType,
-        ${PersonaFields.isAlreadySelected} $integerType
+        ${PersonaFields.isAlreadySelected} $integerType,
+        ${PersonaFields.description} $textType
       )
     ''');
 
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector1', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Louis XVI', 1, 0, 'Votre personnage est Louis XVI. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector2', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Marie Antoinette', 1, 0, 'Votre personnage est Marie Antoinette. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector3', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Elisabeth de France', 1, 0, 'Votre personnage est Elisabeth de France. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector4', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'René de Maupeou', 1, 0, 'Votre personnage est René de Maupeou. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector5', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Armand Marc de Montmorin de Saint-Hérem', 1, 0, 'Votre personnage est Armand Marc de Montmorin de Saint-Hérem. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector6', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Joseph François Foullon de Doué', 1, 0, 'Votre personnage est Joseph François Foullon de Doué. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Protector7', 1, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Jean-Sylvain Bailly', 1, 0, 'Votre personnage est Jean-Sylvain Bailly. Pour gagner, toi et ton équipe devez protéger minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Saboteur1', 2, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Robespierre', 2, 0, 'Votre personnage est Robespierre. Pour gagner, toi et ton équipe devez saboter minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Saboteur2', 2, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Marianne', 2, 0, 'Votre personnage est Marianne. Pour gagner, toi et ton équipe devez saboter minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Saboteur3', 2, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Gilbert du Motier de La Fayette', 2, 0, 'Votre personnage est Gilbert du Motier de La Fayette. Pour gagner, toi et ton équipe devez saboter minimum 3 monuments parisien.'
       )
     ''');
     await db.execute('''
-      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected') VALUES ( 
-        'Saboteur4', 2, 0
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Camilles Desmoulins', 2, 0, 'Votre personnage est Camilles Desmoulins. Pour gagner, toi et ton équipe devez saboter minimum 3 monuments parisien.'
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO $tablePersonas ('name', 'roleId', 'isAlreadySelected', 'description') VALUES ( 
+        'Jean-Joseph Mounier', 2, 0, 'Votre personnage est Jean-Joseph Mounier. Pour gagner, toi et ton équipe devez saboter minimum 3 monuments parisien.'
       )
     ''');
 

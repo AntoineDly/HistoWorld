@@ -51,7 +51,7 @@ class _ChooseGuardPageState extends State<ChooseGuardPage> {
               onWillPop: onWillPop,
               child: Scaffold(
                 appBar: AppBar(
-                  title: Text('Choose Guard'),
+                  title: Text('Désigner un Chef de garde'),
                   leading: GestureDetector(
                     child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
                     onTap: () {
@@ -59,24 +59,30 @@ class _ChooseGuardPageState extends State<ChooseGuardPage> {
                     },
                   ),
                 ),
-                body: GridView.count(
-                  crossAxisCount: 2,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  children: List.generate(users.length, (index) {
-                    return Center(
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => HubPage(user: users[index]))
-                              );
-                            },
-                            child: Text(users[index].name)
-                        )
-                    );
-                  }),
-                ),
+                body: Column(
+                  children: <Widget>[
+                    Text('Désigne le prochain chef de garde'),
+                    Text('Il te suffit de cliquer sur l’un des joueurs de ton choix.'),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: List.generate(users.length, (index) {
+                        return Center(
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => HubPage(user: users[index]))
+                                  );
+                                },
+                                child: Text(users[index].name)
+                            )
+                        );
+                      })
+                    )
+                  ]
+                )
               )
           );
         } else {
