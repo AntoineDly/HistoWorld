@@ -30,7 +30,10 @@ class _ValidateEliminationPageState extends State<ValidateEliminationPage> {
       ),
         body: Column(
             children: [
-              Text(widget.selectedUser.name + ' a été guillotiné(e).'),
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(widget.selectedUser.name + ' a été guillotiné(e).'),
+              ),
               TextButton(
                   onPressed: () async {
                     await removeUser(widget.selectedUser).then((test) =>

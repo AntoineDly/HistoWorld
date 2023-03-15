@@ -131,7 +131,10 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 labelText: 'Entre ton pseudonyme',
               ),
             ),
-            Text('À quel camp vas-tu appartenir ?'),
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text('À quel camp vas-tu appartenir ?'),
+            ),
             TextButton(
               onPressed: () async {
                 if(nameController.text.isNotEmpty) {

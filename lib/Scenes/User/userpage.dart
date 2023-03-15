@@ -91,7 +91,7 @@ class _UserPageState extends State<UserPage> {
       onWillPop: onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.user.name + 'est...'),
+          title: Text('${widget.user.name} est ...'),
           leading: GestureDetector(
             child: const Icon( Icons.arrow_back_ios, color: Colors.black,  ),
             onTap: () {
@@ -101,35 +101,26 @@ class _UserPageState extends State<UserPage> {
         ),
         body: Column(
           children: [
-            Row(
-              children: [
-                const Text('Id : '),
-                Text(widget.user.id.toString())
-              ]
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text('Utilisateur : ${widget.user.name}'),
             ),
-            Row(
-              children: [
-                const Text('Username : '),
-                Text(widget.user.name)
-              ]
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text('Role : $roleName'),
             ),
-            Row(
-              children: [
-                const Text('Role : '),
-                Text(roleName)
-              ]
+            Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text('Personnage : ${persona.name}'),
             ),
-            Row(
-              children: [
-                const Text('PersonaName : '),
-                Text(persona.name)
-              ]
-            ),
-            Text(
-              persona.description,
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 20
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child:  Text(
+                  persona.description,
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 20
+              ),
             ),
             TextButton(
               onPressed: () {

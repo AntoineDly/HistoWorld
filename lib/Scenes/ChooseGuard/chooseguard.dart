@@ -61,8 +61,14 @@ class _ChooseGuardPageState extends State<ChooseGuardPage> {
                 ),
                 body: Column(
                   children: <Widget>[
-                    Text('Désigne le prochain chef de garde'),
-                    Text('Il te suffit de cliquer sur l’un des joueurs de ton choix.'),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text('Désigne le prochain chef de garde'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text('Il te suffit de cliquer sur l’un des joueurs de ton choix.'),
+                    ),
                     GridView.count(
                       crossAxisCount: 2,
                       scrollDirection: Axis.vertical,

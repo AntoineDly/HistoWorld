@@ -80,9 +80,18 @@ class _HubPageState extends State<HubPage> {
           ),
           body: Column(
               children: <Widget>[
-                Text ('protecteurs : ' + currentNbProtecteurs.toString()),
-                Text ('Saboteurs : ' + currentNbSaboteurs.toString()),
-                Text(widget.user != null ? widget.user!.name : 'Veuillez désigner un chef de gardes'),
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text ('protecteurs : ' + currentNbProtecteurs.toString()),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text ('Saboteurs : ' + currentNbSaboteurs.toString()),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(widget.user != null ? widget.user!.name  + ' est chef de gardes.' : 'Veuillez désigner un chef de gardes'),
+                ),
                 TextButton(
                     onPressed: () async {
                       Navigator.push(
